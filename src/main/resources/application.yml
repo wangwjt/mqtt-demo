@@ -1,0 +1,21 @@
+# MQTT配置信息
+spring:
+  mqtt:
+    # 用户名
+    username: admin
+    # 密码
+    password: 123456
+    # 服务器连接地址
+    url: tcp://127.0.0.1:1883
+    # 生产者id(要求consumerId和productId不能一致)
+    product:
+      id: productId
+    # 消费者id
+    consumer:
+      id: consumerId
+    # 默认的消息推送主题(实际可在调用接口时指定)
+    default:
+      topic: topic
+    timeout: 3000
+server:
+  port: 9999
