@@ -1,5 +1,6 @@
 package com.example.mqttdemo.config;
 
+import com.example.mqttdemo.service.MqttReceiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,9 @@ public class MqttReceiveConfig {
 
     @Autowired
     MqttConfig mqttConfig;
+
+    @Autowired
+    MqttReceiveService mqttReceiveService;
 
     @Value("${spring.mqtt.consumer.id}")
     private String consumerId;
@@ -75,7 +79,7 @@ public class MqttReceiveConfig {
                 String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
                 // 消息主体
                 String msg = message.getPayload().toString();
-                System.out.println("接受来自" + topic + "的->" + msg);
+                mqttReceiveService.MqttMessageHandler(topic, msg);
             }
         };
     }

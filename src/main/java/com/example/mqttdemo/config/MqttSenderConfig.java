@@ -35,6 +35,7 @@ public class MqttSenderConfig {
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public MessageHandler mqttOutbound() {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(productId, mqttConfig.mqttClientFactory());
+        // 设置成true，发送消息时将不会阻塞
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic(defaultTopic);
         return messageHandler;
