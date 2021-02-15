@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.concurrent.*;
 
 /**
- * @description: 消息处理线程池(懒汉式)
+ * @description: 消息处理线程池 (懒汉式)
  * @author: Okentao
  * @create: 2021-02-15 19:19
  */
@@ -32,7 +32,7 @@ public class MessageReceiveHandlerThreadPool {
         if (Objects.isNull(pool)) {
             synchronized (MessageReceiveHandlerThreadPool.class) {
                 if (Objects.isNull(pool)) {
-                    // 防止线程没处理完而持续接收消息
+                    // 不用Executors.newFixedThreadPool,有坑,阻塞队列无穷大；防止线程没处理完而持续接收消息
                     pool = new ThreadPoolExecutor(THREAD_NUM,
                             THREAD_NUM, 0L, TimeUnit.MILLISECONDS,
                             new ArrayBlockingQueue<Runnable>(MAX_QUEUE_SIZE),
