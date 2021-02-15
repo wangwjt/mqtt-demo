@@ -1,6 +1,8 @@
 package com.example.mqttdemo.config;
 
+import com.example.mqttdemo.Tread.MessageReceiveHandlerThreadPool;
 import com.example.mqttdemo.service.MqttReceiveService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +27,7 @@ import org.springframework.messaging.MessagingException;
  */
 @Configuration
 @IntegrationComponentScan
+@Log4j2
 public class MqttReceiveConfig {
 
     @Autowired
@@ -79,7 +82,9 @@ public class MqttReceiveConfig {
                 String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
                 // 消息主体
                 String msg = message.getPayload().toString();
-                mqttReceiveService.MqttMessageHandler(topic, msg);
+                MessageReceiveHandlerThreadPool.execute(() -> {
+                    mqttReceiveService.MqttMessageHandler(topic, msg);
+                });
             }
         };
     }

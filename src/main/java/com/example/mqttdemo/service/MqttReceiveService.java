@@ -13,5 +13,5 @@ public interface MqttReceiveService {
      * @param topic   主题
      * @param message 消息
      */
-    void MqttMessageHandler(String topic, String message);
+    boolean MqttMessageHandler(String topic, String message);
 }

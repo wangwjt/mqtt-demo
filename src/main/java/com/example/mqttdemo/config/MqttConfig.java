@@ -33,12 +33,12 @@ public class MqttConfig {
      */
     @Bean
     public MqttConnectOptions getMqttConnectOptions() {
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setUserName(username);
-        mqttConnectOptions.setPassword(password.toCharArray());
-        mqttConnectOptions.setServerURIs(new String[]{hostUrl});
-        mqttConnectOptions.setKeepAliveInterval(2);
-        return mqttConnectOptions;
+        MqttConnectOptions connect = new MqttConnectOptions();
+        connect.setUserName(username);
+        connect.setPassword(password.toCharArray());
+        connect.setServerURIs(new String[]{hostUrl});
+        connect.setKeepAliveInterval(2);
+        return connect;
     }
 
     /**
