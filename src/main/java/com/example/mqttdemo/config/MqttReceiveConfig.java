@@ -45,7 +45,10 @@ public class MqttReceiveConfig {
     /**
      * 监听的主题
      */
-    private final static String[] listenTopic = {"topic_index", "test/testTopic"};
+    private final static String listenTopic = "default";
+
+
+    private MqttPahoMessageDrivenChannelAdapter adapter;
 
     /**
      * 接收通道
@@ -60,8 +63,8 @@ public class MqttReceiveConfig {
      */
     @Bean
     public MessageProducer inbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter(consumerId, mqttConfig.mqttClientFactory(), listenTopic);
+        // 初始化不设置topic; 动态添加topic
+        adapter = new MqttPahoMessageDrivenChannelAdapter(consumerId, mqttConfig.mqttClientFactory(), listenTopic);
         adapter.setCompletionTimeout(timeout);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -87,5 +90,28 @@ public class MqttReceiveConfig {
                 });
             }
         };
+    }
+
+    /**
+     * 添加主题
+     */
+    public void addListTopic(String[] topicArr) {
+        if (adapter == null) {
+            adapter = new MqttPahoMessageDrivenChannelAdapter(consumerId, mqttConfig.mqttClientFactory(), listenTopic);
+        }
+        for (String topic : topicArr) {
+            adapter.addTopic(topic, 1);
+        }
+//        adapter.removeTopic();
+    }
+
+    /**
+     * 移除主题
+     */
+    public void removeListTopic(String topic) {
+        if (adapter == null) {
+            adapter = new MqttPahoMessageDrivenChannelAdapter(consumerId, mqttConfig.mqttClientFactory(), listenTopic);
+        }
+        adapter.removeTopic(topic);
     }
 }

@@ -1,4 +1,11 @@
-GET http://127.0.0.1:9999/test/send?data=uuuuu3q4tregf
+### 订阅主题
+GET http://127.0.0.1:9999/listen?topic=test666
 Accept: application/json
 
-###
+### 发布消息
+GET http://127.0.0.1:9999/send?topic=test666&data=wrhrhhwhhwwwwhwhwhw
+Accept: application/json
+
+### 设备获取消息
+GET http://127.0.0.1:9999/get?topic=test666
+Accept: application/json

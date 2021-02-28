@@ -37,7 +37,10 @@ public class MqttConfig {
         connect.setUserName(username);
         connect.setPassword(password.toCharArray());
         connect.setServerURIs(new String[]{hostUrl});
+        // 心跳
         connect.setKeepAliveInterval(2);
+        // ClearSession的设置为0，QoS为1或2 可以让设备接收离线消息
+        connect.setCleanSession(false);
         return connect;
     }
 
